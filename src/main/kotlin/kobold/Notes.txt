@@ -1,0 +1,8 @@
+TODO cleanup repositories
+TODO parser
+DONE    match terminal symbols
+DONE    write a simple playbook
+TODO lexer
+TODO    return errors
+TODO    test rule order
+DONE    write a simple playbook
