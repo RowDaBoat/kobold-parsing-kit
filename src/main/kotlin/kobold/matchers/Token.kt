@@ -10,5 +10,5 @@ open class Token(val text: String): Symbol {
 
     override fun hashCode() = 31 * text.hashCode() + children.hashCode()
 
-    override fun toString() = "${this.javaClass}(text=\"$text\")"
+    override fun toString() = "${this.javaClass.simpleName}(text=\"$text\")"
 }
