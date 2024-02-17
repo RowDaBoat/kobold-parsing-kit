@@ -11,11 +11,14 @@ interface ZeroOrMoreOperatorDSL {
 }
 
 class ZeroOrMoreOperator(private val memo: MatcherMemo) : ZeroOrMoreOperatorDSL {
-    override fun String.zeroOrMore() = zeroOrMoreOf(TerminalByContent(Token(this)))
+    override fun String.zeroOrMore() =
+        zeroOrMoreOf(TerminalByContent(Token(this)))
 
-    override fun Token.zeroOrMore() = zeroOrMoreOf(TerminalByContent(this))
+    override fun Token.zeroOrMore() =
+        zeroOrMoreOf(TerminalByContent(this))
 
-    override fun Matcher.zeroOrMore() = zeroOrMoreOf(this)
+    override fun Matcher.zeroOrMore() =
+        zeroOrMoreOf(this)
 
     private fun zeroOrMoreOf(terminal: Matcher): NonTerminal {
         val recursion = NonTerminal(memo)

@@ -1,15 +1,16 @@
 package kobold.parser.dsl
 
+import kobold.Accepted
 import kobold.parser.dsl.support.tokens
-import kobold.matchers.Accepted
 import kobold.parser.parser
 import org.junit.jupiter.api.Test
+import kotlin.test.assertIs
 
 class EmptyShould {
     @Test
     fun acceptAnythingOnEmpty() {
         val empty = parser { empty }
-        assert(empty.parse(tokens("")) is Accepted)
+        assertIs<Accepted>(empty.parse(tokens("")))
     }
 }
 

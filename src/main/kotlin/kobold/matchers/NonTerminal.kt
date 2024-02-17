@@ -1,35 +1,40 @@
 package kobold.matchers
 
 import MatcherMemo
-
-typealias Tokens = Sequence<Token>
-typealias Evaluator = (Matcher, Tokens) -> MatcherResult
+import kobold.Accepted
+import kobold.Result
+import kobold.Rejected
 
 class NonTerminal(private val memo: MatcherMemo, private val producer: ((List<Symbol>) -> Symbol)? = null) : Matcher {
     private var expression: Matcher = Empty()
 
-    override fun match(tokens: List<Token>, rest: Tokens, evaluate: Evaluator) =
-        buildTree(when (val result = memoizedResultFor(rest)) {
-            null -> justMatch(tokens, rest, evaluate)
-            is DetectingRecursion -> detectRecursion(rest)
-            else -> result
-        })
-
-    private fun buildTree(result: MatcherResult) =
-        when(result) {
-            is Accepted -> result.withProducer(producer)
-            else -> result
+    override fun match(tokens: List<Token>, rest: Tokens, evaluate: Evaluator): Result {
+        val memoResult = memoizedResultFor(rest)
+        val isRecursion = memo.isDetectingRecursion(this, rest)
+        val result = when {
+            memoResult == null -> justMatch(tokens, rest, evaluate)
+            isRecursion -> detectRecursion(rest)
+            else -> memoResult
         }
+
+        return buildTree(result)
+    }
 
     fun from(expression: Matcher): Matcher {
         this.expression = expression
         return this
     }
+
+    private fun buildTree(result: Result) =
+        when(result) {
+            is Accepted -> result.withProducer(producer)
+            is Rejected -> result
+        }
+
     private fun memoizedResultFor(rest: Tokens) =
         memo.getFor(this, rest)?.result
 
-
-    private fun justMatch(tokens: List<Token>, rest: Tokens, evaluate: Evaluator): MatcherResult {
+    private fun justMatch(tokens: List<Token>, rest: Tokens, evaluate: Evaluator): Result {
         memo.initializeFor(this, rest)
         val result = evaluate(expression, rest)
         val preGrowState = memo.updateFor(this, rest, result = result)
@@ -40,15 +45,15 @@ class NonTerminal(private val memo: MatcherMemo, private val producer: ((List<Sy
             result
     }
 
-    private fun detectRecursion(rest: Tokens): MatcherResult =
-        memo.updateFor(this, rest, result = Rejected(rest), grow = true).result
+    private fun detectRecursion(rest: Tokens): Result =
+        memo.updateFor(this, rest, result = Rejected(rest.firstOrNothing(), rest), grow = true).result
 
     private fun growParsingSeed(
         tokens: List<Token>,
         rest: Tokens,
         alreadyMatched: Tokens,
         evaluate: Evaluator
-    ) : MatcherResult {
+    ) : Result {
         while(true) {
             val result = growEvaluate(expression, rest, rest, hashSetOf(this), tokens, evaluate)
 
@@ -68,7 +73,7 @@ class NonTerminal(private val memo: MatcherMemo, private val producer: ((List<Sy
         limits: HashSet<NonTerminal>,
         tokens: List<Token>,
         evaluate: Evaluator
-    ): MatcherResult {
+    ): Result {
         return if (expression is NonTerminal && rest.count() == current.count() && !limits.contains(expression))
             expression.matchGrow(tokens, rest, limits, evaluate)
         else if (expression is NonTerminal)
@@ -82,7 +87,7 @@ class NonTerminal(private val memo: MatcherMemo, private val producer: ((List<Sy
         rest: Tokens,
         limits: HashSet<NonTerminal>,
         evaluate: Evaluator
-    ): MatcherResult {
+    ): Result {
         limits.add(this)
         val result = growEvaluate(expression, rest, rest, limits, tokens, evaluate)
         val state = memo.getFor(this, rest)!!

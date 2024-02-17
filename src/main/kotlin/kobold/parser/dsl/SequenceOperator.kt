@@ -14,14 +14,18 @@ interface SequenceOperatorDSL {
 }
 
 class SequenceOperator : SequenceOperatorDSL {
-    override fun sequence(vararg that: String) = sequenceOf(that.map { TerminalByContent(Token(it)) }.toTypedArray())
+    override fun sequence(vararg that: String) =
+        sequenceOf(that.map { TerminalByContent(Token(it)) }.toTypedArray())
 
-    override fun sequence(vararg that: Token) = sequenceOf(that.map { TerminalByContent(it) }.toTypedArray())
+    override fun sequence(vararg that: Token) =
+        sequenceOf(that.map { TerminalByContent(it) }.toTypedArray())
 
-    override fun sequence(vararg that: Matcher) = sequenceOf(that)
+    override fun sequence(vararg that: Matcher) =
+        sequenceOf(that)
 
-    override fun sequence(that: List<Matcher>): Matcher = sequenceOf(that.toTypedArray())
+    override fun sequence(that: List<Matcher>): Matcher =
+        sequenceOf(that.toTypedArray())
 
-    private fun sequenceOf(that: Array<out Matcher>) = that.fold(Empty() as Matcher)
-        { partial, matcher -> Concatenation(partial, matcher) }
+    private fun sequenceOf(that: Array<out Matcher>) =
+        that.fold(Empty() as Matcher, ::Concatenation)
 }

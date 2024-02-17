@@ -1,65 +1,68 @@
 package kobold.matchers
 
 import MatcherMemo
+import kobold.Accepted
+import kobold.Rejected
 import kobold.parser.dsl.support.tokens
 import org.junit.jupiter.api.Test
 import kotlin.test.assertEquals
+import kotlin.test.assertIs
 
 class MatchersShould {
     @Test
     fun acceptEmpty() {
         val grammar = Empty()
         val result = grammar.match(tokens(""))
-        assert(result is Accepted)
+        assertIs<Accepted>(result)
     }
 
     @Test
     fun acceptAMatchingTerminal() {
         val grammar = TerminalByContent(Token('('))
         val result = grammar.match(tokens("("))
-        assert(result is Accepted)
+        assertIs<Accepted>(result)
     }
 
     @Test
     fun rejectANonMatchingTerminal() {
         val grammar = TerminalByContent(Token('('))
         val result = grammar.match(tokens(")"))
-        assert(result is Rejected)
+        assertIs<Rejected>(result)
     }
 
     @Test
     fun acceptAMatchingConcatenation() {
         val grammar = Concatenation(TerminalByContent(Token('(')), TerminalByContent(Token(')')))
         val result = grammar.match(tokens("()"))
-        assert(result is Accepted)
+        assertIs<Accepted>(result)
     }
 
     @Test
     fun rejectANonMatchingConcatenation() {
         val grammar = Concatenation(TerminalByContent(Token('(')), TerminalByContent(Token(')')))
         val result = grammar.match(tokens("))"))
-        assert(result is Rejected)
+        assertIs<Rejected>(result)
     }
 
     @Test
     fun acceptAnOrderedChoiceMatchingFirst() {
         val grammar = OrderedChoice(TerminalByContent(Token('a')), TerminalByContent(Token('b')))
         val result = grammar.match(tokens("a"))
-        assert(result is Accepted)
+        assertIs<Accepted>(result)
     }
 
     @Test
     fun acceptAnOrderedChoiceMatchingSecond() {
         val grammar = OrderedChoice(TerminalByContent(Token('a')), TerminalByContent(Token('b')))
         val result = grammar.match(tokens("b"))
-        assert(result is Accepted)
+        assertIs<Accepted>(result)
     }
 
     @Test
     fun rejectAnOrderedChoiceNotMatchingEither() {
         val grammar = OrderedChoice(TerminalByContent(Token('a')), TerminalByContent(Token('b')));
         val result = grammar.match(tokens("c"))
-        assert(result is Rejected)
+        assertIs<Rejected>(result)
     }
 
     @Test
@@ -70,7 +73,7 @@ class MatchersShould {
 
         val result = manyAs.match(tokens("aaaaaaaaaaaaaaaaa"))
 
-        assert(result is Accepted)
+        assertIs<Accepted>(result)
     }
 
     @Test
@@ -82,7 +85,7 @@ class MatchersShould {
         val string = "aaaaaaaaaaaaaaaab"
         val result = manyAs.match(tokens(string))
 
-        assert(result is Accepted)
+        assertIs<Accepted>(result)
         assertEquals(1, result.rest.count())
     }
 
@@ -94,7 +97,7 @@ class MatchersShould {
 
         val result = manyAs.match(tokens("baaaaaaaaaaaaaaaa"))
 
-        assert(result is Accepted)
+        assertIs<Accepted>(result)
         assert(!result.matched.any())
     }
 
@@ -108,7 +111,7 @@ class MatchersShould {
         val string = "(((()))(())())"
         val result = closure.match(tokens(string))
 
-        assert(result is Accepted)
+        assertIs<Accepted>(result)
         assert(!result.rest.any())
     }
 
@@ -122,7 +125,7 @@ class MatchersShould {
         val string = "((()))(())())"
         val result = closure.match(tokens(string))
 
-        assert(result is Accepted)
+        assertIs<Accepted>(result)
         assert(result.rest.any())
     }
 
@@ -137,7 +140,7 @@ class MatchersShould {
         val string = "e+e+e+e+e+e+e+e+e+e"
         val result = sum.match(tokens(string))
 
-        assert(result is Accepted)
+        assertIs<Accepted>(result)
         assert(!result.rest.any())
     }
 
@@ -147,7 +150,7 @@ class MatchersShould {
         val string = "baaaabaaaaaab"
         val result = grammar.match(tokens(string))
 
-        assert(result is Accepted)
+        assertIs<Accepted>(result)
         assert(!result.rest.any())
     }
 

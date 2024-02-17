@@ -1,3 +1,5 @@
 package kobold.matchers
 
-data class State(var result: MatcherResult, var grow: Boolean)
+import kobold.Result
+
+data class State(var result: Result, var grow: Boolean)

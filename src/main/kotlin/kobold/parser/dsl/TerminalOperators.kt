@@ -8,7 +8,9 @@ interface TerminalOperatorDSL {
 }
 
 class TerminalOperators : TerminalOperatorDSL {
-    override fun<T> terminal(type: Class<T>) = TerminalByType(type)
+    override fun<T> terminal(type: Class<T>) =
+        TerminalByType(type)
 }
 
-inline fun<reified T> ParserDSL.terminal() = terminal(T::class.java)
+inline fun<reified T> ParserDSL.terminal() =
+    terminal(T::class.java)

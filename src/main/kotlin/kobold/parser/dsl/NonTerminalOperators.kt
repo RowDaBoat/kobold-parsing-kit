@@ -12,7 +12,12 @@ interface NonTerminalOperatorDSL {
 }
 
 class NonTerminalOperators(private val memo : MatcherMemo) : NonTerminalOperatorDSL {
-    override fun nonTerminal(): NonTerminal = NonTerminal(memo)
-    override fun nonTerminal(producer: (List<Symbol>) -> Symbol): NonTerminal = NonTerminal(memo, producer)
-    override infix fun NonTerminal.from(matcher: Matcher) = this.from(matcher)
+    override fun nonTerminal(): NonTerminal =
+        NonTerminal(memo)
+
+    override fun nonTerminal(producer: (List<Symbol>) -> Symbol): NonTerminal =
+        NonTerminal(memo, producer)
+
+    override infix fun NonTerminal.from(matcher: Matcher) =
+        this.from(matcher)
 }

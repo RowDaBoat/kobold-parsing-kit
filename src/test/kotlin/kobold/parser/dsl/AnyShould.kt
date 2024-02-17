@@ -1,21 +1,22 @@
 package kobold.parser.dsl
 
+import kobold.Accepted
+import kobold.Rejected
 import kobold.parser.dsl.support.tokens
-import kobold.matchers.Accepted
-import kobold.matchers.Rejected
 import kobold.parser.parser
 import org.junit.jupiter.api.Test
+import kotlin.test.assertIs
 
 class AnyShould {
     @Test
     fun acceptAnySymbol() {
         val any = parser { any().oneOrMore() }
-        assert(any.parse(tokens("aoierbvnaeorbnaietrbae")) is Accepted)
+        assertIs<Accepted>(any.parse(tokens("aoierbvnaeorbnaietrbae")))
     }
 
     @Test
     fun rejectAnEmptyList() {
         val any = parser { any() }
-        assert(any.parse(tokens("")) is Rejected)
+        assertIs<Rejected>(any.parse(tokens("")))
     }
 }

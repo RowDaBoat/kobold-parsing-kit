@@ -11,11 +11,14 @@ interface OneOrMoreOperatorDSL {
 }
 
 class OneOrMoreOperator(private val memo: MatcherMemo) : OneOrMoreOperatorDSL {
-    override fun String.oneOrMore() = oneOrMoreOf(TerminalByContent(Token(this)))
+    override fun String.oneOrMore() =
+        oneOrMoreOf(TerminalByContent(Token(this)))
 
-    override fun Token.oneOrMore() = oneOrMoreOf(TerminalByContent(this))
+    override fun Token.oneOrMore() =
+        oneOrMoreOf(TerminalByContent(this))
 
-    override fun Matcher.oneOrMore() = oneOrMoreOf(this)
+    override fun Matcher.oneOrMore() =
+        oneOrMoreOf(this)
 
     private fun oneOrMoreOf(terminal: Matcher): NonTerminal {
         val recursion = NonTerminal(memo)

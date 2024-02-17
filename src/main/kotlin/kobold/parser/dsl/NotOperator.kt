@@ -12,7 +12,12 @@ interface NotOperatorDSL {
 }
 
 class NotOperator : NotOperatorDSL {
-    override fun not(that: String) = not(Token(that))
-    override fun not(that: Token) = not(TerminalByContent(that))
-    override fun not(that: Matcher) = Not(that)
+    override fun not(that: String) =
+        not(Token(that))
+
+    override fun not(that: Token) =
+        not(TerminalByContent(that))
+
+    override fun not(that: Matcher) =
+        Not(that)
 }

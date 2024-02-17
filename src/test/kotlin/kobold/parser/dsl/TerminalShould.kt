@@ -1,10 +1,11 @@
 package kobold.parser.dsl
 
-import kobold.matchers.Accepted
-import kobold.matchers.Rejected
+import kobold.Accepted
+import kobold.Rejected
 import kobold.matchers.Token
 import kobold.parser.parser
 import org.junit.jupiter.api.Test
+import kotlin.test.assertIs
 
 class TerminalShould {
     class SomeThing : Token("")
@@ -20,7 +21,7 @@ class TerminalShould {
 
         val result = parser.parse(listOf(SomeThing(), OtherThing(), SomeThing()))
         println(result)
-        assert(result is Accepted)
+        assertIs<Accepted>(result)
     }
 
     @Test
@@ -29,6 +30,6 @@ class TerminalShould {
 
         val result = parser.parse(listOf(OtherThing()))
 
-        assert(result is Rejected)
+        assertIs<Rejected>(result)
     }
 }

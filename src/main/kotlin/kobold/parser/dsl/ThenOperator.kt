@@ -20,15 +20,31 @@ interface ThenOperatorDSL {
 }
 
 class ThenOperator : ThenOperatorDSL {
-    override infix fun String.then(that: String) = Token(this) then Token(that)
-    override infix fun String.then(that: Token) = Token(this) then TerminalByContent(that)
-    override infix fun String.then(that: Matcher) = Token(this) then that
+    override infix fun String.then(that: String) =
+        Token(this) then Token(that)
 
-    override infix fun Token.then(that: String) = TerminalByContent(this) then Token(that)
-    override infix fun Token.then(that: Token) = TerminalByContent(this) then TerminalByContent(that)
-    override infix fun Token.then(that: Matcher) = TerminalByContent(this) then that
+    override infix fun String.then(that: Token) =
+        Token(this) then TerminalByContent(that)
 
-    override infix fun Matcher.then(that: String) = this then Token(that)
-    override infix fun Matcher.then(that: Token) = this then TerminalByContent(that)
-    override infix fun Matcher.then(that: Matcher) = Concatenation(this, that)
+    override infix fun String.then(that: Matcher) =
+        Token(this) then that
+
+    override infix fun Token.then(that: String) =
+        TerminalByContent(this) then Token(that)
+
+    override infix fun Token.then(that: Token) =
+        TerminalByContent(this) then TerminalByContent(that)
+
+    override infix fun Token.then(that: Matcher) =
+        TerminalByContent(this) then that
+
+    override infix fun Matcher.then(that: String) =
+        this then Token(that)
+
+    override infix fun Matcher.then(that: Token) =
+        this then TerminalByContent(that)
+
+    override infix fun Matcher.then(that: Matcher) =
+        Concatenation(this, that)
+
 }

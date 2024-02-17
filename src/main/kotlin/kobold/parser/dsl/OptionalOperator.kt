@@ -13,7 +13,12 @@ interface OptionalOperatorDSL {
 }
 
 class OptionalOperator : OptionalOperatorDSL {
-    override fun optional(that: String) = optional(Token(that))
-    override fun optional(that: Token) = optional(TerminalByContent(that))
-    override fun optional(that: Matcher) = OrderedChoice(that, Empty())
+    override fun optional(that: String) =
+        optional(Token(that))
+
+    override fun optional(that: Token) =
+        optional(TerminalByContent(that))
+
+    override fun optional(that: Matcher) =
+        OrderedChoice(that, Empty())
 }

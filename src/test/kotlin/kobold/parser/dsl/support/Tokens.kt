@@ -1,7 +1,7 @@
 package kobold.parser.dsl.support
 
-import kobold.matchers.Token
 import kobold.matchers.TerminalByContent
+import kobold.matchers.Token
 
 fun tokens(string: String) = string.map { Token(it.toString()) }
 

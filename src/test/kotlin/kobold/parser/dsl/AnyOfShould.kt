@@ -1,24 +1,25 @@
 package kobold.parser.dsl
 
+import kobold.Accepted
+import kobold.Rejected
 import kobold.parser.dsl.support.tokens
-import kobold.matchers.Accepted
-import kobold.matchers.Rejected
 import kobold.parser.parser
 import org.junit.jupiter.api.Test
+import kotlin.test.assertIs
 
 class AnyOfShould {
     @Test
     fun acceptAnythingMatchingOptions() {
         val anyOf = parser { anyOf("a", "b", "c", "d") }
-        assert(anyOf.parse(tokens("a")) is Accepted)
-        assert(anyOf.parse(tokens("b")) is Accepted)
-        assert(anyOf.parse(tokens("c")) is Accepted)
-        assert(anyOf.parse(tokens("d")) is Accepted)
+        assertIs<Accepted>(anyOf.parse(tokens("a")))
+        assertIs<Accepted>(anyOf.parse(tokens("b")))
+        assertIs<Accepted>(anyOf.parse(tokens("c")))
+        assertIs<Accepted>(anyOf.parse(tokens("d")))
     }
 
     @Test
     fun rejectEverythingNotMatchingOptions() {
         val anyOf = parser { anyOf("a", "b", "c", "d") }
-        assert(anyOf.parse(tokens("e")) is Rejected)
+        assertIs<Rejected>(anyOf.parse(tokens("e")))
     }
 }

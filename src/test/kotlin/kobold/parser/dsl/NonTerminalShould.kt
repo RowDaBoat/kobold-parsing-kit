@@ -1,11 +1,12 @@
 package kobold.parser.dsl
 
-import kobold.matchers.Accepted
+import kobold.Accepted
 import kobold.matchers.Token
 import kobold.parser.dsl.support.*
 import kobold.parser.parser
 import org.junit.jupiter.api.Test
 import kotlin.test.assertEquals
+import kotlin.test.assertIs
 
 class NonTerminalShould {
     @Test
@@ -15,7 +16,7 @@ class NonTerminalShould {
             expression from (("a" then expression) or empty)
         }
 
-        assert(sequence.parse(tokens("aaaaaaaaaaaaa")) is Accepted)
+        assertIs<Accepted>(sequence.parse(tokens("aaaaaaaaaaaaa")))
     }
 
     @Test
@@ -25,7 +26,7 @@ class NonTerminalShould {
             expression from ((expression then "a") or empty)
             expression
         }
-        assert(sequence.parse(tokens("aaaaaaaaaaaaa")) is Accepted)
+        assertIs<Accepted>(sequence.parse(tokens("aaaaaaaaaaaaa")))
     }
 
     @Test
@@ -36,7 +37,7 @@ class NonTerminalShould {
         }
 
         val result = grammar.parse(tokens("aa"))
-        assert(result is Accepted)
+        assertIs<Accepted>(result)
         assertEquals(Expression(Expression()), (result as Accepted).tree)
     }
 
@@ -63,7 +64,7 @@ class NonTerminalShould {
         }
 
         val result = grammar.parse(tokens("((a)(b))"))
-        assert(result is Accepted)
+        assertIs<Accepted>(result)
 
         val tree = (result as Accepted).tree
         assert(tree == Enclosure(Enclosure(Label("a")), Enclosure(Label("b"))))

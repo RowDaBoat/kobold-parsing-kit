@@ -1,27 +1,28 @@
 package kobold.parser.dsl
 
+import kobold.Accepted
+import kobold.Rejected
 import kobold.parser.dsl.support.tokens
-import kobold.matchers.Accepted
-import kobold.matchers.Rejected
 import kobold.parser.parser
 import org.junit.jupiter.api.Test
+import kotlin.test.assertIs
 
 class OneOrMoreShould {
     @Test
     fun rejectZeroMatches() {
         val either = parser { "a".oneOrMore() }
-        assert(either.parse(tokens("something")) is Rejected)
+        assertIs<Rejected>(either.parse(tokens("something")))
     }
 
     @Test
     fun acceptSomeMatching() {
         val either = parser { "a".oneOrMore() }
-        assert(either.parse(tokens("aaaaaaaaa")) is Accepted)
+        assertIs<Accepted>(either.parse(tokens("aaaaaaaaa")))
     }
 
     @Test
     fun consumeAllOfTheMatch() {
         val either = parser { "a".oneOrMore() then "c" }
-        assert(either.parse(tokens("aaaac")) is Accepted)
+        assertIs<Accepted>(either.parse(tokens("aaaac")))
     }
 }

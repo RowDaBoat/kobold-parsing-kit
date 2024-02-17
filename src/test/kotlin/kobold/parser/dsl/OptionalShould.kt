@@ -1,21 +1,22 @@
 package kobold.parser.dsl
 
+import kobold.Accepted
 import kobold.parser.dsl.support.tokenMatchers
 import kobold.parser.dsl.support.tokens
-import kobold.matchers.Accepted
 import kobold.parser.parser
 import org.junit.jupiter.api.Test
+import kotlin.test.assertIs
 
 class OptionalShould {
     @Test
     fun acceptNotMatching() {
         val either = parser { optional("a") then sequence(tokenMatchers("bbb")) }
-        assert(either.parse(tokens("bbb")) is Accepted)
+        assertIs<Accepted>(either.parse(tokens("bbb")))
     }
 
     @Test
     fun acceptAndConsumeMatching() {
         val either = parser { optional("a") then sequence(tokenMatchers("bbb")) }
-        assert(either.parse(tokens("abbb")) is Accepted)
+        assertIs<Accepted>(either.parse(tokens("abbb")))
     }
 }
