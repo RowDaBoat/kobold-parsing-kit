@@ -30,7 +30,7 @@ class LexerState(
         val newLineNumber = lineNumber + newLineCount
         val newColumnNumber = getNewColumnNumber(newLineCount, tokenText)
 
-        token.addMetadata(lineNumber, columnNumber, "")
+        token.addMetadata(lineNumber, columnNumber)
 
         return LexerState(result.rest, rules, result.token, newLineNumber, newColumnNumber)
     }

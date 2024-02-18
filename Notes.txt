@@ -11,6 +11,7 @@ TODO parser
     DONE write a simple playbook
 TODO lexer
     TODO return a result accepting or rejecting the tokenized string
+    TODO add a reference to the corresponding line in each token
     TODO test rule order
     DONE proper error output
     DONE implement line and column numbers

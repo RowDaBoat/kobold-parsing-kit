@@ -20,22 +20,23 @@ class Accepted(
             else -> Accepted(matched, rest, producer(subtreeOrChildren()), emptyList())
         }
 
-    private fun subtreeOrChildren() = when (tree) {
-        null -> children
-        else -> listOf(tree)
-    }
+    private fun subtreeOrChildren() =
+        when (tree) {
+            null -> children
+            else -> listOf(tree)
+        }
 }
 
 class Rejected(
     val reason: Reason,
     rest: Sequence<Token>
 ) : Result(emptySequence(), rest) {
-    val columnNumber: Int
-    val lineNumber: Int
+    val column: Int
+    val line: Int
 
     init {
         val firstUnmatchedToken = rest.firstOrNull()
-        columnNumber = firstUnmatchedToken?.columnNumber ?: 1
-        lineNumber = firstUnmatchedToken?.lineNumber ?: 1
+        column = firstUnmatchedToken?.column ?: 1
+        line = firstUnmatchedToken?.line ?: 1
     }
 }

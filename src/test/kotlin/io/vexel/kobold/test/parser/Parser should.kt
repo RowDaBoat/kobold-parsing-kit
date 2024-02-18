@@ -62,8 +62,8 @@ class `Parser should` {
         val result = parser.parse(tokens)
 
         assertIs<io.vexel.kobold.Rejected>(result)
-        assertEquals(1, result.lineNumber)
-        assertEquals(11, result.columnNumber)
+        assertEquals(1, result.line)
+        assertEquals(11, result.column)
     }
 
     @Test

@@ -53,22 +53,21 @@ class `Lexer should` {
         assertEquals(expected, tokens)
     }
 
-    class Ats(character: String, lineNumber: Int = 1, columnNumber: Int = 1, line: String = "") : Token(character) {
+    class Ats(character: String, lineNumber: Int = 1, columnNumber: Int = 1) : Token(character) {
         init {
-            this.addMetadata(lineNumber, columnNumber, line)
+            this.addMetadata(lineNumber, columnNumber)
         }
 
         override fun toString(): String {
-            return "Ats(text=$text, lineNumber=$lineNumber, columnNumber=$columnNumber, line=$line)"
+            return "Ats(text=$text, lineNumber=$line, columnNumber=$column)"
         }
 
         override fun equals(other: Any?) =
             super.equals(other) && other is Ats &&
-                (lineNumber == other.lineNumber) &&
-                columnNumber == other.columnNumber &&
-                line == other.line
+                (line == other.line) &&
+                column == other.column
 
         override fun hashCode(): Int =
-            super.hashCode() + Objects.hash(lineNumber, columnNumber, line)
+            super.hashCode() + Objects.hash(line, column)
     }
 }
