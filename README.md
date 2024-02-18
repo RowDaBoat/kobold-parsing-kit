@@ -17,7 +17,7 @@ class PlusOperator: Token("+")
 
 val lexer = lexer {
     ('0' to '9').oneOrMore() with { Number(it) }
-    ('a' to 'z') or ('A' to 'Z') with { Variable(it) }
+    (('a' to 'z') or ('A' to 'Z')).oneOrMore() with { Variable(it) }
     "+" with { PlusOperator() }
     ignore(" ")
 }
@@ -42,6 +42,8 @@ The kit also offers a parser to transform a list of Tokens into a Syntax Tree us
 The following parses simple algebraic sum expressions.
 
 ```kotlin
+class Sum(override val children: List<Symbol>) : Symbol
+
 val parser = parser {
     val operator = terminal<PlusOperator>()
     val number = terminal<Number>()

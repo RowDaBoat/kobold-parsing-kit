@@ -1,3 +1,4 @@
+TODO update README.md
 DONE cleanup imports
 DONE cleanup repositories
 DONE matchers
@@ -9,6 +10,7 @@ TODO parser
     DONE match terminal symbols
     DONE write a simple playbook
 TODO lexer
+    TODO return a result accepting or rejecting the tokenized string
     TODO test rule order
     DONE proper error output
     DONE implement line and column numbers
