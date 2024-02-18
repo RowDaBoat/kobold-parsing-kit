@@ -1,16 +1,16 @@
 TODO cleanup imports
 DONE cleanup repositories
-TODO matchers
-    TODO implement a Rejection Reason
+DONE matchers
+    DONE implement a Rejection Reason
 TODO parser
-    TODO proper error output
-    TODO consider premature EOF
+    DONE proper error output
+    DONE consider premature EOF
     DONE always consume all input
     DONE match terminal symbols
     DONE write a simple playbook
 TODO lexer
-    TODO proper error output
     TODO test rule order
+    DONE proper error output
     DONE implement line and column numbers
     DONE refactor ignore and produce rules in lexer
     DONE write a simple playbook

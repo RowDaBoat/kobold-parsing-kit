@@ -30,8 +30,7 @@ class Accepted(
 }
 
 class Rejected(
-    val detected: Token,
-    //val expected: Token,
+    val reason: Reason,
     rest: Sequence<Token>
 ) : Result(emptySequence(), rest) {
     val columnNumber: Int

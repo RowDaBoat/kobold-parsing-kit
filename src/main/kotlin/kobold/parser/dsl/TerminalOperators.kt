@@ -2,6 +2,8 @@ package kobold.parser.dsl
 
 import kobold.matchers.Matcher
 import kobold.matchers.TerminalByType
+import kotlin.reflect.KType
+import kotlin.reflect.typeOf
 
 interface TerminalOperatorDSL {
     fun<T> terminal(type: Class<T>): Matcher

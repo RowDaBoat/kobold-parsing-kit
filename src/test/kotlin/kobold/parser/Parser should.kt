@@ -3,6 +3,8 @@ package kobold.parser
 import kobold.lexer.lexer
 import kobold.Accepted
 import kobold.Rejected
+import kobold.TrailingTokens
+import kobold.UnexpectedToken
 import kobold.matchers.Symbol
 import kobold.matchers.Token
 import kobold.parser.dsl.terminal
@@ -68,17 +70,23 @@ class `Parser should` {
     }
 
     @Test
-    fun `provide rejection reasons`() {
-        val tokens = lexer.tokenize("++++++++a+++++")
-        val parser = parser {
-            val plus = terminal<PlusOperator>()
-            plus.oneOrMore()
+    fun `reject trailing tokens even if all tokens before are matching`() {
+        val lexer = lexer {
+            "a" with { Token("a") }
+            "b" with { Token("b") }
         }
-        val result = parser.parse(tokens)
 
+        val parser = parser { sequence("a", "a", "a") }
+        val tokens = lexer.tokenize("aaabbb")
+
+        val result = parser.parse(tokens)
         assertIs<Rejected>(result)
-        assertEquals(Variable("a"), result.detected)
-        //assertEquals(PlusOperator(), result.expected)
+
+        val reason = result.reason
+        assertIs<TrailingTokens>(reason)
+
+        val expectedTrail = listOf(Token("b"), Token("b"), Token("b"))
+        assertEquals(expectedTrail, reason.trail.toList())
     }
 
     private fun expectedTree() =

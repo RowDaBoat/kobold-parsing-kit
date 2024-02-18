@@ -1,9 +1,8 @@
 package kobold.matchers
 
 import MatcherMemo
-import kobold.Accepted
-import kobold.Result
-import kobold.Rejected
+import kobold.*
+import kobold.lexer.dsl.NothingToken
 
 class NonTerminal(private val memo: MatcherMemo, private val producer: ((List<Symbol>) -> Symbol)? = null) : Matcher {
     private var expression: Matcher = Empty()
@@ -45,8 +44,10 @@ class NonTerminal(private val memo: MatcherMemo, private val producer: ((List<Sy
             result
     }
 
-    private fun detectRecursion(rest: Tokens): Result =
-        memo.updateFor(this, rest, result = Rejected(rest.firstOrNothing(), rest), grow = true).result
+    private fun detectRecursion(rest: Tokens): Result {
+        val rejected = Rejected(UnsupportedLeftRecursion, rest)
+        return memo.updateFor(this, rest, result = rejected, grow = true).result
+    }
 
     private fun growParsingSeed(
         tokens: List<Token>,

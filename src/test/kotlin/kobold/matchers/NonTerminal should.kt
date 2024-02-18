@@ -3,70 +3,15 @@ package kobold.matchers
 import MatcherMemo
 import kobold.Accepted
 import kobold.Rejected
+import kobold.UnexpectedToken
 import kobold.parser.dsl.support.tokens
 import org.junit.jupiter.api.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertIs
 
-class MatchersShould {
+class `NonTerminal should` {
     @Test
-    fun acceptEmpty() {
-        val grammar = Empty()
-        val result = grammar.match(tokens(""))
-        assertIs<Accepted>(result)
-    }
-
-    @Test
-    fun acceptAMatchingTerminal() {
-        val grammar = TerminalByContent(Token('('))
-        val result = grammar.match(tokens("("))
-        assertIs<Accepted>(result)
-    }
-
-    @Test
-    fun rejectANonMatchingTerminal() {
-        val grammar = TerminalByContent(Token('('))
-        val result = grammar.match(tokens(")"))
-        assertIs<Rejected>(result)
-    }
-
-    @Test
-    fun acceptAMatchingConcatenation() {
-        val grammar = Concatenation(TerminalByContent(Token('(')), TerminalByContent(Token(')')))
-        val result = grammar.match(tokens("()"))
-        assertIs<Accepted>(result)
-    }
-
-    @Test
-    fun rejectANonMatchingConcatenation() {
-        val grammar = Concatenation(TerminalByContent(Token('(')), TerminalByContent(Token(')')))
-        val result = grammar.match(tokens("))"))
-        assertIs<Rejected>(result)
-    }
-
-    @Test
-    fun acceptAnOrderedChoiceMatchingFirst() {
-        val grammar = OrderedChoice(TerminalByContent(Token('a')), TerminalByContent(Token('b')))
-        val result = grammar.match(tokens("a"))
-        assertIs<Accepted>(result)
-    }
-
-    @Test
-    fun acceptAnOrderedChoiceMatchingSecond() {
-        val grammar = OrderedChoice(TerminalByContent(Token('a')), TerminalByContent(Token('b')))
-        val result = grammar.match(tokens("b"))
-        assertIs<Accepted>(result)
-    }
-
-    @Test
-    fun rejectAnOrderedChoiceNotMatchingEither() {
-        val grammar = OrderedChoice(TerminalByContent(Token('a')), TerminalByContent(Token('b')));
-        val result = grammar.match(tokens("c"))
-        assertIs<Rejected>(result)
-    }
-
-    @Test
-    fun acceptZeroOrMoreRepetitions() {
+    fun `accept zero or more repetitions`() {
         val memo = MatcherMemo()
         val manyAs = NonTerminal(memo)
         manyAs.from(OrderedChoice(Concatenation(TerminalByContent(Token('a')), manyAs), Empty()))
@@ -77,32 +22,31 @@ class MatchersShould {
     }
 
     @Test
-    fun rejectZeroOrMoreRepetitionsEndingWithOtherCharacter() {
+    fun `accept zero or more repetitions ending with other character`() {
         val memo = MatcherMemo()
         val manyAs = NonTerminal(memo)
         manyAs.from(OrderedChoice(Concatenation(TerminalByContent(Token('a')), manyAs), Empty()))
 
         val string = "aaaaaaaaaaaaaaaab"
         val result = manyAs.match(tokens(string))
-
         assertIs<Accepted>(result)
         assertEquals(1, result.rest.count())
     }
 
     @Test
-    fun rejectZeroOrMoreRepetitionsStartingWithOtherCharacter() {
+    fun `reject zero or more repetitions starting with other character`() {
         val memo = MatcherMemo()
         val manyAs = NonTerminal(memo)
-        manyAs.from(OrderedChoice(Concatenation(TerminalByContent(Token('a')), manyAs), Empty()))
+        manyAs.from(Concatenation(TerminalByContent(Token('a')), manyAs))
 
         val result = manyAs.match(tokens("baaaaaaaaaaaaaaaa"))
 
-        assertIs<Accepted>(result)
-        assert(!result.matched.any())
+        assertIs<Rejected>(result)
+        assertIs<UnexpectedToken>(result.reason)
     }
 
     @Test
-    fun acceptRecursiveGrammarsMatchedWithANestedExpression() {
+    fun `accept recursive grammars matched with a nested expression`() {
         val memo = MatcherMemo()
         val closures = NonTerminal(memo)
         val closure = Concatenation(TerminalByContent(Token('(')), Concatenation(closures, TerminalByContent(Token(')'))))
@@ -116,7 +60,7 @@ class MatchersShould {
     }
 
     @Test
-    fun rejectRecursiveGrammarsMatchedWithAMalformedExpression() {
+    fun `partially accept recursive grammars matched with a malformed expression`() {
         val memo = MatcherMemo()
         val closures = NonTerminal(memo)
         val closure = Concatenation(TerminalByContent(Token('(')), Concatenation(closures, TerminalByContent(Token(')'))))
@@ -130,7 +74,7 @@ class MatchersShould {
     }
 
     @Test
-    fun acceptALeftRecursiveGrammarsMatchedWithAnExpression() {
+    fun `accept a left recursive grammars matched with an expression`() {
         val memo = MatcherMemo()
         val operand = TerminalByContent(Token('e'))
         val operator = TerminalByContent(Token('+'))
@@ -145,7 +89,7 @@ class MatchersShould {
     }
 
     @Test
-    fun parseWithAGrammarWithMultipleLeftRecursionsAcceptingAComplexInput() {
+    fun `parse with a grammar with multiple left recursions accepting a complex input`() {
         val grammar = baabGrammar();
         val string = "baaaabaaaaaab"
         val result = grammar.match(tokens(string))

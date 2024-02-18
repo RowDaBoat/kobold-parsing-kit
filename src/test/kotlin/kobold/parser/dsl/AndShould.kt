@@ -11,11 +11,11 @@ import kotlin.test.assertIs
 class AndShould {
     @Test
     fun acceptMatchingBoth() {
-        val not = parser { "a".oneOrMore() and sequence(tokenMatchers("aaa")) }
-        assertIs<Rejected>(not.parse(tokens("")))
-        assertIs<Rejected>(not.parse(tokens("a")))
-        assertIs<Rejected>(not.parse(tokens("aa")))
-        assertIs<Accepted>(not.parse(tokens("aaa")))
-        assertIs<Accepted>(not.parse(tokens("aaaaaaaaa")))
+        val and = parser { "a".oneOrMore() and sequence(tokenMatchers("aaa")) }
+        assertIs<Rejected>(and.parse(tokens("")))
+        assertIs<Rejected>(and.parse(tokens("a")))
+        assertIs<Rejected>(and.parse(tokens("aa")))
+        assertIs<Accepted>(and.parse(tokens("aaa")))
+        assertIs<Accepted>(and.parse(tokens("aaaaaaaaa")))
     }
 }

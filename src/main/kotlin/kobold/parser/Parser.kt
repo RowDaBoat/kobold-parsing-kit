@@ -1,7 +1,9 @@
 package kobold.parser
 
 import kobold.Accepted
+import kobold.Reason
 import kobold.Rejected
+import kobold.TrailingTokens
 import kobold.matchers.Matcher
 import kobold.matchers.Token
 import kobold.matchers.match
@@ -18,7 +20,7 @@ class Parser(private val matcher: Matcher) {
 
     private fun acceptIfNoTrailingTokens(result: Accepted) =
         when (result.rest.any()) {
-            true -> Rejected(result.rest.first(), result.rest)
+            true -> Rejected(TrailingTokens(result.rest), result.rest)
             false -> result
         }
 }
