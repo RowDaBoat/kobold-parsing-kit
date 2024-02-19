@@ -1,3 +1,5 @@
+import org.jetbrains.kotlin.gradle.plugin.KotlinTargetHierarchy.SourceSetTree.Companion.test
+
 plugins {
     kotlin("jvm") version "1.9.0"
     id("maven-publish")
@@ -5,7 +7,7 @@ plugins {
 }
 
 val groupName = "io.vexel"
-val libVersion = "1.0.0"
+val libVersion = "1.0.0-SNAPSHOT"
 val artifactName = "kobold-parsing-kit"
 
 group = groupName
@@ -20,7 +22,7 @@ dependencies {
     testImplementation(kotlin("test"))
 }
 
-tasks.test {
+tasks.named<Test>("test") {
     useJUnitPlatform()
 }
 

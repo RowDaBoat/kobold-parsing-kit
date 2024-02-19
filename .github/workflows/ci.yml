@@ -1,4 +1,4 @@
-name: Publish
+name: Test and Publish
 
 on:
   push:
@@ -20,6 +20,9 @@ jobs:
       with:
         java-version: '11'
         distribution: 'adopt'
+
+    - name: Test
+      run: ./gradlew test
 
     - name: Publish
       run: ./gradlew publish

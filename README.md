@@ -1,5 +1,7 @@
 # Kobold Parsing Kit
 
+![ci-badge](https://github.com/RowDaBoat/kobold-parsing-kit/actions/workflows/ci.yml/badge.svg?branch=trunk)
+
 The **Kobold Parsing Kit** is a set of tools designed to create parsers using grammars expressed in a simple domain specific language. No regular expressions, just an easy to learn DSL.
 
 The tools rely on packrat parsing for matching expressions, and resolve multiple left recursive grammars, both direct and indirect, by implementing the solution proposed by Umeda and Maeda in their [excellent contribution](https://www.jstage.jst.go.jp/article/ipsjjip/29/0/29_174/_pdf).
