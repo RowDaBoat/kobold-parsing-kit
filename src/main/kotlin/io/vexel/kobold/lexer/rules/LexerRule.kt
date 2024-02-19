@@ -7,17 +7,17 @@ import io.vexel.kobold.Token
 import io.vexel.kobold.matchers.Matcher
 import io.vexel.kobold.matchers.match
 
-//TODO: passing the string around and having to .asTokens() and .joinToString("") every time seems odd.
 class LexerRule(val matcher: Matcher, val producer: (String) -> Token) {
     fun match(string: String) =
         when(val result = matcher.match(string.asTokens())) {
-            is Accepted -> match(result)
+            is Accepted -> matched(result)
             is Rejected -> RuleNotMatched()
         }
 
-    private fun match(result: Result): RuleMatched {
+    private fun matched(result: Result): RuleMatched {
         val matchingString = stringFrom(result.matched)
         val token = producer(matchingString)
+        //TODO: doing .joinToString("") here every time seems suspicious.
         val rest = stringFrom(result.rest)
         return RuleMatched(token, rest)
     }
@@ -27,4 +27,3 @@ class LexerRule(val matcher: Matcher, val producer: (String) -> Token) {
 
     private fun String.asTokens(): List<Token> = map { Token(it) }
 }
-

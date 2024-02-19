@@ -1,16 +1,20 @@
-TODO update README.md
+TODO should the parser and lexer provide their own Accept, Reject and Reason types?
+DONE update README.md
 DONE cleanup imports
 DONE cleanup repositories
 DONE matchers
     DONE implement a Rejection Reason
-TODO parser
+DONE parser
     DONE proper error output
     DONE consider premature EOF
     DONE always consume all input
     DONE match terminal symbols
     DONE write a simple playbook
 TODO lexer
-    TODO return a result accepting or rejecting the tokenized string
+    TODO return a result accepting or rejecting the tokenized string, consider cases:
+        Unexpected tokens
+        No remaining tokens
+        Trailing tokens
     TODO add a reference to the corresponding line in each token
     TODO test rule order
     DONE proper error output

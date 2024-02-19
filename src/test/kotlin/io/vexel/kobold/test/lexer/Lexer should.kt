@@ -2,7 +2,6 @@ package io.vexel.kobold.test.lexer
 
 import io.vexel.kobold.Token
 import io.vexel.kobold.lexer.lexer
-
 import io.vexel.kobold.test.tokens.Number
 import org.junit.jupiter.api.Test
 import java.util.*
