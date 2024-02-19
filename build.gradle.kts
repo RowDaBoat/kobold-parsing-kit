@@ -1,7 +1,5 @@
-import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
-
 plugins {
-    kotlin("jvm") version "1.7.10"
+    kotlin("jvm") version "1.9.0"
     id("maven-publish")
     `maven-publish`
 }
@@ -26,8 +24,8 @@ tasks.test {
     useJUnitPlatform()
 }
 
-tasks.withType<KotlinCompile> {
-    kotlinOptions.jvmTarget = "1.8"
+kotlin {
+    jvmToolchain(11)
 }
 
 publishing {
@@ -37,5 +35,13 @@ publishing {
 
     repositories {
         mavenLocal()
+        maven {
+            name = "GitHubPackages"
+            url = uri("https://maven.pkg.github.com/RowDaBoat/kobold-parsing-kit")
+            credentials {
+                username = System.getenv("GITHUB_ACTOR")
+                password = System.getenv("GITHUB_TOKEN")
+            }
+        }
     }
 }
