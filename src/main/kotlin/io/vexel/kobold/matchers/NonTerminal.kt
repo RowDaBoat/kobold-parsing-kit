@@ -1,6 +1,5 @@
 package io.vexel.kobold.matchers
 
-import MatcherMemo
 import io.vexel.kobold.*
 
 class NonTerminal(private val memo: MatcherMemo, private val producer: ((List<Symbol>) -> Symbol)? = null) : Matcher {

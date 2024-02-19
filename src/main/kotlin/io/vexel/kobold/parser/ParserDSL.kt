@@ -1,6 +1,6 @@
 package io.vexel.kobold.parser
 
-import MatcherMemo
+import io.vexel.kobold.matchers.MatcherMemo
 import io.vexel.kobold.matchers.Empty
 import io.vexel.kobold.parser.dsl.*
 

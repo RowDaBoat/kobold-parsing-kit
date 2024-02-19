@@ -1,8 +1,7 @@
+package io.vexel.kobold.matchers
+
 import io.vexel.kobold.Accepted
 import io.vexel.kobold.Result
-import io.vexel.kobold.matchers.NonTerminal
-import io.vexel.kobold.matchers.State
-import io.vexel.kobold.matchers.Tokens
 
 class MatcherMemo {
     private val states = hashMapOf<Parameters, State>()

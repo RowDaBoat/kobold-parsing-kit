@@ -1,6 +1,6 @@
 package io.vexel.kobold.parser.dsl
 
-import MatcherMemo
+import io.vexel.kobold.matchers.MatcherMemo
 import io.vexel.kobold.Symbol
 import io.vexel.kobold.matchers.Matcher
 import io.vexel.kobold.matchers.NonTerminal

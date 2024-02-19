@@ -1,6 +1,6 @@
 package io.vexel.kobold.test.matchers
 
-import MatcherMemo
+import io.vexel.kobold.matchers.MatcherMemo
 import io.vexel.kobold.Accepted
 import io.vexel.kobold.Rejected
 import io.vexel.kobold.Token
