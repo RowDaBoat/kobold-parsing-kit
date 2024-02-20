@@ -7,16 +7,16 @@ import io.vexel.kobold.test.parser.dsl.support.tokens
 import org.junit.jupiter.api.Test
 import kotlin.test.assertIs
 
-class AnyShould {
+class AnythingShould {
     @Test
     fun acceptAnySymbol() {
-        val any = parser { any().oneOrMore() }
+        val any = parser { anything.oneOrMore() }
         assertIs<Accepted>(any.parse(tokens("aoierbvnaeorbnaietrbae")))
     }
 
     @Test
     fun rejectAnEmptyList() {
-        val any = parser { any() }
+        val any = parser { anything }
         assertIs<Rejected>(any.parse(tokens("")))
     }
 }

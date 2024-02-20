@@ -15,10 +15,12 @@ fun lexer(ruleDeclarations: LexerDSL.() -> Unit): Lexer {
 }
 
 class Lexer(private val rules: MutableList<LexerRule>) {
-    fun tokenize(string: String): List<Token> =
-        generateSequence(LexerState(string, rules, NothingToken())) { it.nextState() }
+    fun tokenize(text: String): List<Token> {
+        val lines = text.split('\n')
+        return generateSequence(LexerState(text, lines, rules, NothingToken())) { it.nextState() }
             .filter { it.token !is NothingToken }
             .filter { it.token !is IgnoredToken }
             .map { it.token }
             .toList()
+    }
 }

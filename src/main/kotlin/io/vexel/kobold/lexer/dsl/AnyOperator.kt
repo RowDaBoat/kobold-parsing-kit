@@ -1,6 +1,6 @@
 package io.vexel.kobold.lexer.dsl
 
-import io.vexel.kobold.matchers.Any
+import io.vexel.kobold.matchers.Anything
 import io.vexel.kobold.matchers.Matcher
 
 interface AnyOperatorDSL {
@@ -8,5 +8,5 @@ interface AnyOperatorDSL {
 }
 
 class AnyOperator : AnyOperatorDSL {
-    override fun any() = Any()
+    override fun any() = Anything()
 }

@@ -2,7 +2,7 @@ package io.vexel.kobold.test.matchers
 
 import io.vexel.kobold.Token
 import io.vexel.kobold.matchers.*
-import io.vexel.kobold.matchers.Any
+import io.vexel.kobold.matchers.Anything
 import io.vexel.kobold.test.parser.dsl.support.tokens
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
@@ -25,14 +25,14 @@ class `Not should` {
 
     @Test
     fun `when combined with Any should accept an empty sequence`() {
-        val grammar = Not(Any())
+        val grammar = Not(Anything())
         val result = grammar.match(tokens(""))
         assertIs<io.vexel.kobold.Accepted>(result)
     }
 
     @Test
     fun `when combined with Any should reject a non empty sequence`() {
-        val grammar = Not(Any())
+        val grammar = Not(Anything())
         val result = grammar.match(tokens("a"))
         assertIs<io.vexel.kobold.Rejected>(result)
 

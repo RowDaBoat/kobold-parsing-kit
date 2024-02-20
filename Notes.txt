@@ -1,23 +1,30 @@
 TODO should the parser and lexer provide their own Accept, Reject and Reason types?
+DONE Rename 'Any' to 'Anything'
 DONE update README.md
 DONE cleanup imports
 DONE cleanup repositories
-DONE matchers
+
+[ Matchers ]
     DONE implement a Rejection Reason
-DONE parser
-    DONE proper error output
-    DONE consider premature EOF
-    DONE always consume all input
-    DONE match terminal symbols
-    DONE write a simple playbook
-TODO lexer
+
+[ Lexer ]
     TODO return a result accepting or rejecting the tokenized string, consider cases:
         Unexpected tokens
         No remaining tokens
         Trailing tokens
-    TODO add a reference to the corresponding line in each token
     TODO test rule order
+    DONE add a reference to the corresponding line text to each token
+    DONE add start and end indices to Token
     DONE proper error output
     DONE implement line and column numbers
     DONE refactor ignore and produce rules in lexer
+    DONE write a simple playbook
+
+[ Parser ]
+    TODO bad parenthesis break everything on the parser
+    DONE add TerminalByContent to dsl as terminal(Token("..."))
+    DONE proper error output
+    DONE consider premature EOF
+    DONE always consume all input
+    DONE match terminal symbols
     DONE write a simple playbook

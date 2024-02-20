@@ -5,11 +5,13 @@ import io.vexel.kobold.lexer.rules.LexerRule
 import io.vexel.kobold.lexer.rules.RuleMatched
 
 class LexerState(
-    val string: String,
+    val text: String,
+    private val lines: List<String>,
     private val rules: List<LexerRule>,
     val token: Token,
-    private val lineNumber: Int = 1,
-    private val columnNumber: Int = 1
+    private val line: Int = 1,
+    private val column: Int = 1,
+    private val start: Int = 0
 ) {
     fun nextState(): LexerState? {
         return when(val result = matchWithRules()) {
@@ -20,27 +22,32 @@ class LexerState(
 
     private fun matchWithRules() =
         rules.asSequence()
-            .map { it.match(string) }
+            .map { it.match(text) }
             .firstOrNull { it is RuleMatched }
 
     private fun advanceState(result: RuleMatched): LexerState {
         val token = result.token
         val tokenText = token.text
         val newLineCount = tokenText.count { it == '\n' }
-        val newLineNumber = lineNumber + newLineCount
-        val newColumnNumber = getNewColumnNumber(newLineCount, tokenText)
+        val newLine = line + newLineCount
+        val newColumn = getNewColumn(newLineCount, tokenText)
+        val newStart = getNewLine(token.text.length)
+        val lineText = lines[line - 1]
 
-        token.addMetadata(lineNumber, columnNumber)
+        token.addMetadata(lineText, line, column, start, newStart)
 
-        return LexerState(result.rest, rules, result.token, newLineNumber, newColumnNumber)
+        return LexerState(result.rest, lines, rules, result.token, newLine, newColumn, newStart)
     }
 
-    private fun getNewColumnNumber(newLineCount: Int, tokenText: String) =
+    private fun getNewColumn(newLineCount: Int, tokenText: String) =
         when (newLineCount) {
-            0 -> columnNumber + tokenText.length
+            0 -> column + tokenText.length
             else -> tokenText.length - tokenText.lastIndexOf('\n')
         }
 
+    private fun getNewLine(length: Int) =
+        start + length
+
     override fun toString() =
-        "State { string = $string token = ${token.text} }"
+        "State { string = $text token = ${token.text} }"
 }

@@ -1,13 +1,13 @@
 package io.vexel.kobold.test.matchers
 
-import io.vexel.kobold.matchers.Any
+import io.vexel.kobold.matchers.Anything
 import io.vexel.kobold.matchers.match
 import io.vexel.kobold.test.parser.dsl.support.tokens
 import org.junit.jupiter.api.Test
 import kotlin.test.assertIs
 
 class `Any should` {
-    private val grammar = Any()
+    private val grammar = Anything()
 
     @Test
     fun `accept any token`() {

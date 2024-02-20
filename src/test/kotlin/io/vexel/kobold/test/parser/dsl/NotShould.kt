@@ -11,7 +11,7 @@ import kotlin.test.assertIs
 class NotShould {
     @Test
     fun acceptAnythingNotMatchingSequence() {
-        val not = parser { not("a") then any() }
+        val not = parser { not("a") then anything }
         assertIs<Accepted>(not.parse(tokens("b")))
     }
 
