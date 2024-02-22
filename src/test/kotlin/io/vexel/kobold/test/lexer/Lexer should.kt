@@ -52,6 +52,30 @@ class `Lexer should` {
         assertEquals(expected, tokens)
     }
 
+    @Test
+    fun `match always the longest sequence`() {
+        val lexer = lexer {
+            "@" with { Ats(it) }
+            "@@" with { Ats(it) }
+        }
+
+        val tokens = lexer.tokenize("@@")
+        val expected = listOf(Ats("@@",  "@@", 1, 1, 0, 2))
+        assertEquals(expected, tokens)
+    }
+
+    @Test
+    fun `match the first rule of two with the same length`() {
+        val lexer = lexer {
+            "@" with { Ats(it) }
+            ("@" or "#") with { Token(it) }
+        }
+
+        val tokens = lexer.tokenize("@")
+        val expected = listOf(Ats("@",  "@", 1, 1, 0, 1))
+        assertEquals(expected, tokens)
+    }
+
     class Ats(
         text: String,
         lineText: String = "",

@@ -1,8 +1,10 @@
 package io.vexel.kobold.lexer
 
+import io.vexel.kobold.Accepted
 import io.vexel.kobold.Token
 import io.vexel.kobold.lexer.rules.LexerRule
 import io.vexel.kobold.lexer.rules.RuleMatched
+import io.vexel.kobold.lexer.rules.RuleResult
 
 class LexerState(
     val text: String,
@@ -20,10 +22,18 @@ class LexerState(
         }
     }
 
-    private fun matchWithRules() =
-        rules.asSequence()
+    private fun matchWithRules(): RuleResult? {
+        val matched = rules
+            .asSequence()
             .map { it.match(text) }
-            .firstOrNull { it is RuleMatched }
+            .filterIsInstance<RuleMatched>()
+            .toList()
+
+        return when (matched.any()) {
+            true -> matched.maxBy { it.token.text.length }
+            false -> null
+        }
+    }
 
     private fun advanceState(result: RuleMatched): LexerState {
         val token = result.token

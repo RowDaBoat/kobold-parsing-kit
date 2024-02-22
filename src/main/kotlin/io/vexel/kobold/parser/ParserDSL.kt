@@ -10,14 +10,14 @@ class ParserDSL(private val memo : MatcherMemo = MatcherMemo()) :
     OrOperatorDSL by OrOperator(),
     ThenOperatorDSL by ThenOperator(),
     NotOperatorDSL by NotOperator(),
-    NonTerminalOperatorDSL by NonTerminalOperators(memo),
-    TerminalOperatorsDSL by TerminalOperators(),
     SequenceOperatorDSL by SequenceOperator(),
     AnyOfOperatorDSL by AnyOfOperator(),
     ZeroOrMoreOperatorDSL by ZeroOrMoreOperator(memo),
     OneOrMoreOperatorDSL by OneOrMoreOperator(memo),
     AndOperatorDSL by AndOperator(),
-    OptionalOperatorDSL by OptionalOperator() {
+    OptionalOperatorDSL by OptionalOperator(),
+    NonTerminalMatcherDSL by NonTerminalMatcher(memo),
+    TerminalMatcherDSL by TerminalMatcher() {
     val anything = Anything()
     val empty = Empty()
 }

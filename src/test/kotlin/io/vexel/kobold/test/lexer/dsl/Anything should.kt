@@ -5,11 +5,11 @@ import io.vexel.kobold.lexer.lexer
 import org.junit.jupiter.api.Test
 import kotlin.test.assertEquals
 
-class `Any should` {
+class `Anything should` {
     @Test
     fun `match any character`() {
         val lexer = lexer {
-            any() then any() then any() with { Token(it) }
+            anything then anything then anything with { Token(it) }
         }
 
         val string = "hey"

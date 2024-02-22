@@ -17,7 +17,9 @@ fun lexer(ruleDeclarations: LexerDSL.() -> Unit): Lexer {
 class Lexer(private val rules: MutableList<LexerRule>) {
     fun tokenize(text: String): List<Token> {
         val lines = text.split('\n')
-        return generateSequence(LexerState(text, lines, rules, NothingToken())) { it.nextState() }
+        val initialState = LexerState(text, lines, rules, NothingToken())
+
+        return generateSequence(initialState) { it.nextState() }
             .filter { it.token !is NothingToken }
             .filter { it.token !is IgnoredToken }
             .map { it.token }

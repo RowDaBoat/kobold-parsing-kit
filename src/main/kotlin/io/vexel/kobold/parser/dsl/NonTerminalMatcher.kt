@@ -5,13 +5,13 @@ import io.vexel.kobold.Symbol
 import io.vexel.kobold.matchers.Matcher
 import io.vexel.kobold.matchers.NonTerminal
 
-interface NonTerminalOperatorDSL {
+interface NonTerminalMatcherDSL {
     fun nonTerminal(): NonTerminal
     fun nonTerminal(producer: (List<Symbol>) -> Symbol): NonTerminal
     infix fun NonTerminal.from(matcher: Matcher): Matcher
 }
 
-class NonTerminalOperators(private val memo : MatcherMemo) : NonTerminalOperatorDSL {
+class NonTerminalMatcher(private val memo : MatcherMemo) : NonTerminalMatcherDSL {
     override fun nonTerminal(): NonTerminal =
         NonTerminal(memo)
 
