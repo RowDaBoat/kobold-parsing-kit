@@ -1,5 +1,7 @@
 # Kobold Parsing Kit
 
+<img src="kobold-parsing-kit-logo.png" width="256" height="256">
+
 [![Test and Publish](https://github.com/RowDaBoat/kobold-parsing-kit/actions/workflows/ci.yml/badge.svg)](https://github.com/RowDaBoat/kobold-parsing-kit/actions/workflows/ci.yml)
 
 The **Kobold Parsing Kit** is a set of tools designed to create parsers using grammars expressed in a simple domain specific language. No regular expressions, just an easy to learn DSL.
